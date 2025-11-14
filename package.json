@@ -1,7 +1,7 @@
 {
-  "name": "elc-blocks",
+  "name": "elc-blocks-plugin",
   "version": "1.0.0",
-  "description": "WordPress custom blocks for ELC theme",
+  "description": "WordPress plugin containing custom blocks for ELC website",
   "type": "module",
   "scripts": {
     "install-all": "node scripts/install-all.js",
@@ -15,6 +15,7 @@
   },
   "keywords": [
     "wordpress",
+    "plugin",
     "blocks",
     "gutenberg",
     "elc"

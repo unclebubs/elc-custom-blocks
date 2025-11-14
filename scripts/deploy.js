@@ -18,7 +18,7 @@ if (!deployTo) {
 }
 
 async function deployBlocks () {
-  console.log('🚀 Deploying blocks to WordPress theme...\n')
+  console.log('🚀 Deploying ELC Blocks plugin to WordPress...\n')
   console.log(`📁 Deployment target: ${deployTo}\n`)
 
   const blockDirs = await getBlockDirectories()
@@ -34,6 +34,22 @@ async function deployBlocks () {
   } catch (error) {
     console.error(`❌ Failed to create deployment directory: ${error.message}`)
     process.exit(1)
+  }
+
+  // First, copy the main plugin files
+  console.log('📋 Copying main plugin files...')
+  try {
+    const mainPluginFile = path.join(blocksRoot, 'elc-blocks.php')
+    const destPluginFile = path.join(deployTo, 'elc-blocks.php')
+    await fs.copyFile(mainPluginFile, destPluginFile)
+
+    const pluginReadme = path.join(blocksRoot, 'readme.txt')
+    const destReadme = path.join(deployTo, 'readme.txt')
+    await fs.copyFile(pluginReadme, destReadme)
+
+    console.log('✅ Main plugin files copied')
+  } catch (error) {
+    console.error('❌ Failed to copy main plugin files:', error.message)
   }
 
   let successCount = 0

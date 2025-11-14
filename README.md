@@ -1,6 +1,6 @@
-# ELC WordPress Blocks
+# ELC Custom Blocks Plugin
 
-This is the main npm project for managing all WordPress custom blocks for the ELC theme. Each subfolder contains a separate WordPress block that is its own npm project.
+This project creates a complete WordPress plugin containing custom Gutenberg blocks for the ELC website. Each subfolder contains a separate WordPress block that is its own npm project, and they're all bundled together into a single, deployable WordPress plugin.
 
 ## Quick Start
 
@@ -14,7 +14,7 @@ This is the main npm project for managing all WordPress custom blocks for the EL
    npm run build:production
    ```
 
-3. **Deploy all blocks to WordPress theme:**
+3. **Deploy plugin to WordPress:**
    ```bash
    npm run deploy
    ```
@@ -29,7 +29,7 @@ cp .env.example .env
 
 Edit `.env`:
 ```
-DEPLOY_TO="/path/to/your/wp-content/themes/your-theme/blocks"
+DEPLOY_TO="/path/to/your/wp-content/plugins/elc-blocks"
 ```
 
 ## Available Scripts
@@ -38,7 +38,7 @@ DEPLOY_TO="/path/to/your/wp-content/themes/your-theme/blocks"
 - `npm run build` - Build all blocks in development mode
 - `npm run build:production` - Build all blocks in production mode
 - `npm run start` - Start development mode for all blocks (watch mode)
-- `npm run deploy` - Build and deploy all blocks to WordPress theme
+- `npm run deploy` - Build and deploy plugin to WordPress
 - `npm run clean` - Clean all build directories and node_modules
 - `npm run lint` - Run linting for all blocks
 - `npm run test` - Run tests for all blocks
@@ -94,13 +94,40 @@ npm run deploy  # Builds and deploys all blocks
 - podcast-year-navigation
 - summit-register-interest-buttons
 
+## WordPress Plugin Structure
+
+This project compiles into a complete WordPress plugin with the following structure:
+
+```
+elc-blocks/                    # Plugin directory
+├── elc-blocks.php            # Main plugin file
+├── readme.txt                # WordPress plugin readme
+├── account-login/            # Individual block directories
+│   ├── build/               # Compiled block assets
+│   ├── account-login.php    # Block PHP logic
+│   └── readme.txt           # Block documentation
+└── [other blocks...]
+```
+
 ## Deployment
 
-The deployment script copies all necessary files to the WordPress theme's blocks directory, excluding:
-- `node_modules`
-- `src` (only built files are deployed)
-- `tests`
+The deployment script creates a complete WordPress plugin by copying:
+- `elc-blocks.php` - Main plugin file with block registration
+- Individual block directories with built assets and PHP files
+- Plugin documentation and readme files
+
+Excluded from deployment:
+- `node_modules` - Development dependencies
+- `src` - Source files (only built files deployed)
+- `tests` - Test files
 - Development configuration files
 
-This ensures only production-ready files are deployed to the WordPress site.
-# elc-custom-blocks
+After deployment, activate the plugin in WordPress admin to make all blocks available in the Gutenberg editor.
+
+## Plugin Benefits
+
+- **Theme Independence**: Blocks persist when switching themes
+- **Easy Updates**: Plugin can be updated independently
+- **WordPress Standards**: Follows WordPress plugin development best practices  
+- **Centralized Management**: All custom blocks in one plugin
+- **Version Control**: Plugin versioning and update management
