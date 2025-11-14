@@ -1,0 +1,20 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "elc/account-login",
+	"version": "0.1.0",
+	"title": "ELC Account Login",
+	"category": "widgets",
+	"icon": "admin-users",
+	"description": "Login block for ELC",
+	"example": {},
+	"supports": {
+		"html": false
+	},
+	"textdomain": "account-login",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
+}

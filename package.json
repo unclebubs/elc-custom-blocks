@@ -1,0 +1,47 @@
+{
+  "name": "elc-blocks",
+  "version": "1.0.0",
+  "description": "WordPress custom blocks for ELC theme",
+  "type": "module",
+  "scripts": {
+    "install-all": "node scripts/install-all.js",
+    "build": "node scripts/build-all.js",
+    "start": "node scripts/start-all.js",
+    "build:production": "node scripts/build-all.js --production",
+    "deploy": "npm run build:production && node scripts/deploy.js",
+    "clean": "node scripts/clean.js",
+    "lint": "node scripts/lint-all.js",
+    "test": "node scripts/test-all.js"
+  },
+  "keywords": [
+    "wordpress",
+    "blocks",
+    "gutenberg",
+    "elc"
+  ],
+  "author": "ELC Team",
+  "license": "GPL-2.0-or-later",
+  "devDependencies": {
+    "dotenv": "^16.4.7",
+    "fs-extra": "^11.2.0",
+    "glob": "^10.4.5",
+    "concurrently": "^9.1.0"
+  },
+  "workspaces": [
+    "account-login",
+    "bootstrap-pagination",
+    "elc-papers-tab-navigation",
+    "journal-club-header",
+    "journal-club-listings",
+    "journal-year-navigation",
+    "latest-journal-club-content",
+    "most-recent-podcast",
+    "most-viewed-podcast",
+    "podcast-category-cards",
+    "podcast-category-info",
+    "podcast-listing",
+    "podcast-search-form",
+    "podcast-year-navigation",
+    "summit-register-interest-buttons"
+  ]
+}
