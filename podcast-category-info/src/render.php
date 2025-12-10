@@ -42,18 +42,18 @@ if (!function_exists('render')) {
 			$html .= wp_kses_post($user_content);
 			$html .= "</p>";
 			if (isset($title) && !empty($title)) {
-				$html .= "<h2 class='card-title'>HTA Talks: " . $title . "</h2>";
+				$html .= "<h2 class='card-title text-white'>HTA Talks: " . $title . "</h2>";
 			}
 
 			if (isset($description) && !empty($description)) {
-				$html .= "<p class='card-text'>" . $description . "</p>";
+				$html .= "<div class='mt-3 mb-4 card-text text-white'>" . $description . "</div>";
 			}
 
 			$html .= '<a 
 				class="btn black-solid-pill "
-				href="#podcast-listings">
-				View The Podcasts
-				<i class="bi-arrow-down-circle-fill ms-3 align-middle" style="font-size: 12px;"></i>
+				>
+				Coming soon
+				<i class="bi-arrow-down-circle-fill ms-3 align-middle d-none" style="font-size: 12px;"></i>
 			</a>';
 			$html .= "</div></div>";
 			return $html;

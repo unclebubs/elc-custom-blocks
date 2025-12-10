@@ -27,7 +27,7 @@ foreach ($terms as $term) {
 	echo '<div class="card-body">';
 	echo '<h3 class="card-title text-elc-white">' . esc_html($term->name) . '</h3>';
 	echo '<p class="card-text">' . esc_html($term->description) . '</p>';
-	echo '<a href="' . esc_url(get_term_link($term)) . '" class="white-solid-pill">View Episodes</a>';
+	echo '<a class="white-solid-pill">Coming Soon</a>';
 	echo '</div></div></div>';
 }
 echo '</div>';
