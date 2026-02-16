@@ -42,7 +42,7 @@ if (!function_exists('render')) {
 			$html .= wp_kses_post($user_content);
 			$html .= "</p>";
 			if (isset($title) && !empty($title)) {
-				$html .= "<h2 class='card-title text-white'>HTA Talks: " . $title . "</h2>";
+				$html .= "<h2 class='card-title text-white'>" . $title . "</h2>";
 			}
 
 			if (isset($description) && !empty($description)) {
