@@ -3,7 +3,7 @@ $taxonomy = 'podcast-category'; // adjust if needed
 
 $terms = get_terms([
 	'taxonomy'   => $taxonomy,
-	'hide_empty' => true,
+	'hide_empty' => false,
 	'meta_key'   => 'order',
 	'orderby'    => 'meta_value_num',
 	'order'      => 'ASC'
