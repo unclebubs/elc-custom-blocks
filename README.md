@@ -131,3 +131,7 @@ After deployment, activate the plugin in WordPress admin to make all blocks avai
 - **WordPress Standards**: Follows WordPress plugin development best practices  
 - **Centralized Management**: All custom blocks in one plugin
 - **Version Control**: Plugin versioning and update management
+
+
+## CREATIGN A NEW BLOCK
+npx @wordpress/create-block my-custom-block ## now without block name to get wizzard

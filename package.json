@@ -8,7 +8,7 @@
     "build": "node scripts/build-all.js",
     "start": "node scripts/start-all.js",
     "build:production": "node scripts/build-all.js --production",
-    "deploy": "npm run build:production && node scripts/deploy.js",
+    "deploy": "node scripts/deploy.js",
     "clean": "node scripts/clean.js",
     "lint": "node scripts/lint-all.js",
     "test": "node scripts/test-all.js"
@@ -32,7 +32,6 @@
     "account-login",
     "bootstrap-pagination",
     "elc-papers-tab-navigation",
-    "journal-club-header",
     "journal-club-listings",
     "journal-year-navigation",
     "latest-journal-club-content",
