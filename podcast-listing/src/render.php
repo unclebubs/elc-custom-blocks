@@ -9,39 +9,17 @@ if (!function_exists('render_all_podcast_listings')) {
 	{
 		global $wpdb;
 
-		$subcategory_id = 66;
-
-		$current_category = get_queried_object();
-		if ($current_category && is_a($current_category, 'WP_Term') && $current_category->term_id != 62) {
-			$subcategory_id   = $current_category->term_id;
-		}
-
-		$year = get_query_var('y');
-
 		// Build the query arguments
 		$query_args = array(
 			'post_type'      => 'podcast',
 			'posts_per_page' => -1,
 			'post_status'    => 'publish',
 			'tax_query'      => array(
-				array(
-					'taxonomy' => 'podcast-category',
-					'field'    => 'term_id',
-					'terms'    => $subcategory_id,
-				),
 				'orderby'        => 'date', // Order by published date
 				'order'          => 'DESC'
 			),
 		);
 
-		// Add year filter if provided
-		if ($year) {
-			$query_args['date_query'] = array(
-				array(
-					'year' => $year,
-				),
-			);
-		}
 
 		// Execute the query
 		$query = new WP_Query($query_args);

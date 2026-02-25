@@ -78,7 +78,6 @@ class ELCBlocks
   {
     add_action('init', [$this, 'init']);
     add_action('enqueue_block_assets', [$this, 'enqueue_block_assets']);
-    add_action('admin_notices', [$this, 'admin_notices']);
 
     // Plugin lifecycle hooks
     register_activation_hook(__FILE__, [$this, 'activate']);
@@ -172,29 +171,7 @@ class ELCBlocks
     // Enqueue any global styles or scripts here if needed
   }
 
-  /**
-   * Show admin notices for debugging
-   */
-  public function admin_notices()
-  {
-    if (current_user_can('manage_options')) {
-      $registered = get_option('elc_blocks_registered', []);
-      $failed = get_option('elc_blocks_failed', []);
-      $all_elc_blocks = get_option('elc_blocks_all_registered', []);
 
-      if (!empty($registered)) {
-        echo '<div class="notice notice-success"><p><strong>ELC Blocks:</strong> Successfully registered ' . count($registered) . ' blocks: ' . implode(', ', $registered) . '</p></div>';
-      }
-
-      if (!empty($failed)) {
-        echo '<div class="notice notice-error"><p><strong>ELC Blocks:</strong> Failed to register ' . count($failed) . ' blocks: ' . implode(', ', $failed) . '</p></div>';
-      }
-
-      if (!empty($all_elc_blocks)) {
-        echo '<div class="notice notice-info"><p><strong>ELC Blocks:</strong> All ELC blocks registered in WP: ' . implode(', ', $all_elc_blocks) . '</p></div>';
-      }
-    }
-  }
 
   /**
    * Handle legacy blocks that might have different namespaces
