@@ -51,6 +51,7 @@ class ELCBlocks
     'latest-journal-club-content',
     'most-recent-podcast',
     'most-viewed-podcast',
+    'news-carousel',
     'podcast-audio-player',
     'podcast-category-cards',
     'podcast-category-info',

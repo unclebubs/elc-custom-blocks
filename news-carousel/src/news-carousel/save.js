@@ -4,21 +4,15 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps } from '@wordpress/block-editor';
 
 /**
- * The save function defines the way in which the different attributes should
- * be combined into the final markup, which is then serialized by the block
- * editor into `post_content`.
+ * The save function is not used for dynamic blocks.
+ * Dynamic rendering is handled by render.php.
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#save
  *
- * @return {Element} Element to render.
+ * @return {null} Returns null for dynamic blocks.
  */
-export default function save() {
-	return (
-		<p { ...useBlockProps.save() }>
-			{ 'News Carousel – hello from the saved content!' }
-		</p>
-	);
+export default function save () {
+	return null
 }

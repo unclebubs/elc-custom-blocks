@@ -5,5 +5,24 @@
  */
 
 .wp-block-create-block-news-carousel {
-	border: 1px dotted #f00;
+	border: 1px dashed #ccc;
+	min-height: 100px;
+
+	.components-notice {
+		margin: 0;
+	}
+
+	.components-button {
+		margin-bottom: 8px;
+	}
+
+	// Editor preview styling
+	.news-carousel-wrapper {
+		overflow-x: auto;
+	}
+
+	.card {
+		max-width: 350px;
+		margin: 0 auto;
+	}
 }
