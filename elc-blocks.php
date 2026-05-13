@@ -45,6 +45,7 @@ class ELCBlocks
   private $blocks = [
     'account-login',
     'bootstrap-pagination',
+    'elc-media-gallery',
     'elc-papers-tab-navigation',
     'journal-club-listings',
     'journal-year-navigation',

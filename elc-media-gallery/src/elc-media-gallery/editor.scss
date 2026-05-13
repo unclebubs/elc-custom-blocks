@@ -1,0 +1,76 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-create-block-elc-media-gallery {
+	border: 1px solid #e0e0e0;
+	padding: 1rem;
+	border-radius: 4px;
+
+	.elc-media-gallery-editor {
+		.elc-media-gallery-preview {
+			margin-top: 1rem;
+
+			.position-relative {
+				position: relative;
+
+				.position-absolute {
+					position: absolute;
+				}
+
+				.top-0 {
+					top: 0;
+				}
+
+				.end-0 {
+					right: 0;
+				}
+			}
+
+			img {
+				display: block;
+				width: 100%;
+				height: auto;
+				border-radius: 4px;
+			}
+		}
+
+		.text-muted {
+			color: #6c757d;
+			font-size: 0.875rem;
+		}
+
+		.mb-3 {
+			margin-bottom: 1rem;
+		}
+
+		.row {
+			display: flex;
+			flex-wrap: wrap;
+			margin-left: -0.5rem;
+			margin-right: -0.5rem;
+		}
+
+		.col-md-3 {
+			flex: 0 0 25%;
+			max-width: 25%;
+			padding: 0 0.5rem;
+		}
+
+		@media (max-width: 768px) {
+			.col-sm-4 {
+				flex: 0 0 33.333%;
+				max-width: 33.333%;
+			}
+		}
+
+		@media (max-width: 576px) {
+			.col-6 {
+				flex: 0 0 50%;
+				max-width: 50%;
+			}
+		}
+	}
+}

@@ -1,0 +1,26 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "create-block/elc-media-gallery",
+	"version": "0.1.0",
+	"title": "Elc Media Gallery",
+	"category": "widgets",
+	"icon": "format-gallery",
+	"description": "A responsive image gallery with thumbnail carousel and large preview.",
+	"example": {},
+	"attributes": {
+		"imageIds": {
+			"type": "array",
+			"default": []
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"textdomain": "elc-media-gallery",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}

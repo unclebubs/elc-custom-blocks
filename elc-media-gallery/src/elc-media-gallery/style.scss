@@ -1,0 +1,98 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-create-block-elc-media-gallery {
+	margin: 2rem 0;
+	padding: 0;
+
+	.elc-media-gallery-wrapper {
+		width: 100%;
+		max-width: 1200px;
+		margin: 0;
+		padding: 0;
+
+		// Gallery Cards
+		.elc-gallery-card {
+			cursor: pointer;
+			transition: box-shadow 0.3s ease;
+			border: 1px solid #dee2e6;
+			overflow: hidden;
+
+			&:hover {
+				box-shadow: 0 4px 12px var(primary-color);
+
+				.card-img-top {
+					transform: scale(1.05);
+				}
+			}
+
+			&:focus-visible {
+				outline: 2px solid var(--bs-primary);
+				outline-offset: 2px;
+			}
+
+			.card-img-top {
+				border-bottom: 1px solid #dee2e6;
+				transition: transform 0.5s ease;
+			}
+
+			.card-body {
+				padding: 0.75rem;
+				min-height: 60px;
+			}
+		}
+
+		// Modal Styles
+		.modal-body {
+			.elc-modal-image {
+				border-radius: 4px;
+				transition: opacity 0.3s ease, width 0.3s ease, height 0.3s ease;
+			}
+
+			.elc-modal-caption {
+				font-size: 1.1rem;
+				margin-bottom: 0.5rem;
+				transition: opacity 0.2s ease;
+			}
+
+			.elc-modal-description {
+				font-size: 0.95rem;
+				line-height: 1.6;
+				transition: opacity 0.2s ease;
+			}
+
+			// Navigation buttons
+			.elc-nav-prev,
+			.elc-nav-next {
+				transition: opacity 0.2s ease, transform 0.2s ease;
+
+				&:hover:not(:disabled) {
+					transform: scale(1.1);
+				}
+			}
+
+			.elc-fullscreen-btn {
+				transition: opacity 0.2s ease, transform 0.2s ease;
+
+				&:hover {
+					transform: scale(1.05);
+				}
+			}
+		}
+	}
+
+	// Responsive adjustments
+	@media (max-width: 768px) {
+		.elc-media-gallery-wrapper {
+			.elc-gallery-card {
+				.card-body {
+					min-height: auto;
+				}
+			}
+		}
+	}
+}
