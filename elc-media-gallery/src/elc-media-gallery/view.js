@@ -26,39 +26,122 @@ function initMediaGallery () {
 		const image = images[index]
 
 		const $image = $modal.find('.elc-modal-image')
-		const $caption = $modal.find('.elc-modal-caption')
-		const $description = $modal.find('.elc-modal-description')
+		const $sessionTitle = $modal.find('.elc-modal-session-title')
+		const $speakers = $modal.find('.elc-modal-speakers')
+		const $location = $modal.find('.elc-modal-location')
+		const $date = $modal.find('.elc-modal-date')
+		const $loader = $modal.find('.elc-image-loader')
+		const $modalBody = $modal.find('.modal-body')
+		const $prevBtn = $modal.find('.elc-nav-prev')
+		const $nextBtn = $modal.find('.elc-nav-next')
+		const $fullscreenBtn = $modal.find('.elc-fullscreen-btn')
+
+		// Lock the current height to prevent jumping
+		const currentHeight = $modalBody.outerHeight()
+		$modalBody.css('height', currentHeight + 'px')
 
 		// Fade out current content
 		$image.css('opacity', '0')
-		$caption.css('opacity', '0')
-		$description.css('opacity', '0')
+		$sessionTitle.css('opacity', '0')
+		$speakers.css('opacity', '0')
+		$location.css('opacity', '0')
+		$date.css('opacity', '0')
 
-		// Wait for fade out, then update content
+		// Hide navigation buttons and show loader
+		$prevBtn.fadeOut(200)
+		$nextBtn.fadeOut(200)
+		$fullscreenBtn.fadeOut(200)
+		$loader.fadeIn(200)
+
+		// Wait a moment for fade out, then start preloading
 		setTimeout(function () {
-			// Update image
-			$image.attr('src', image.large).attr('alt', image.alt)
+			// Create new image object to preload
+			const imgElement = new Image()
 
-			// Update caption
-			if (image.caption) {
-				$caption.html('<strong>' + image.caption + '</strong>').show()
-			} else {
-				$caption.empty().hide()
+			imgElement.onload = function () {
+				// Update image
+				$image.attr('src', image.large).attr('alt', image.alt)
+
+				// Update session title
+				if (image.session_title) {
+					$sessionTitle.text(image.session_title).show()
+				} else {
+					$sessionTitle.empty().hide()
+				}
+
+				// Update speakers
+				if (image.speakers) {
+					$speakers.html('<strong>Speakers:</strong> ' + image.speakers).show()
+				} else {
+					$speakers.empty().hide()
+				}
+
+				// Update location
+				if (image.location) {
+					$location.html('<strong>Location:</strong> ' + image.location).show()
+				} else {
+					$location.empty().hide()
+				}
+
+				// Update date
+				if (image.date) {
+					$date.html('<strong>Date:</strong> ' + image.date).show()
+				} else {
+					$date.empty().hide()
+				}
+
+				// Function to handle height transition
+				const doHeightTransition = function () {
+					// Measure the new natural height
+					$modalBody.css('height', 'auto')
+					// Force reflow to ensure browser calculates the new auto height
+					$modalBody[0].offsetHeight
+					const newHeight = $modalBody.outerHeight()
+					$modalBody.css('height', currentHeight + 'px')
+
+					// Force a reflow to ensure the browser registers the initial height
+					// This is necessary for the CSS transition to work
+					$modalBody[0].offsetHeight
+
+					// Animate to new height
+					$modalBody.css('height', newHeight + 'px')
+
+					// Hide loader and fade in new content
+					$loader.fadeOut(200)
+					$prevBtn.fadeIn(200)
+					$nextBtn.fadeIn(200)
+					$fullscreenBtn.fadeIn(200)
+					setTimeout(function () {
+						$image.css('opacity', '1')
+						$sessionTitle.css('opacity', '1')
+						$speakers.css('opacity', '1')
+						$location.css('opacity', '1')
+						$date.css('opacity', '1')
+					}, 50)
+				}
+
+				// Wait for the DOM image to actually render the new dimensions
+				if ($image[0].complete) {
+					// Image is already loaded (cached), proceed immediately
+					setTimeout(doHeightTransition, 10)
+				} else {
+					// Wait for image to load
+					$image.one('load', doHeightTransition)
+				}
 			}
 
-			// Update description
-			if (image.description) {
-				$description.text(image.description).show()
-			} else {
-				$description.empty().hide()
+			imgElement.onerror = function () {
+				// Hide loader on error and restore auto height
+				$loader.fadeOut(200)
+				$prevBtn.fadeIn(200)
+				$nextBtn.fadeIn(200)
+				$fullscreenBtn.fadeIn(200)
+				$modalBody.css('height', 'auto')
+				console.error('Failed to load image:', image.large)
 			}
 
-			// Fade in new content
-			setTimeout(function () {
-				$image.css('opacity', '1')
-				$caption.css('opacity', '1')
-				$description.css('opacity', '1')
-			}, 50)
+			// Start loading the image
+			imgElement.src = image.large
 		}, 150)
 
 		// Update navigation buttons state
@@ -112,6 +195,13 @@ function initMediaGallery () {
 		} catch (e) {
 			console.error('Failed to parse images data:', e)
 			images = []
+		}
+
+		// Set initial square aspect ratio for modal-body
+		const $modalBody = $modal.find('.modal-body')
+		const modalWidth = $modal.find('.modal-dialog').width()
+		if (modalWidth) {
+			$modalBody.css('height', modalWidth + 'px')
 		}
 
 		// Populate modal with the selected image
@@ -187,15 +277,43 @@ function initMediaGallery () {
 		}
 	})
 
-	// Handle keyboard arrows in modal
+	// Handle keyboard arrows in modal and trap focus
 	$('.modal').on('keydown', function (e) {
 		if ($(this).hasClass('show')) {
+			// Handle arrow key navigation
 			if (e.key === 'ArrowLeft') {
 				e.preventDefault()
 				$(this).find('.elc-nav-prev').click()
 			} else if (e.key === 'ArrowRight') {
 				e.preventDefault()
 				$(this).find('.elc-nav-next').click()
+			}
+
+			// Handle focus trapping with Tab key
+			if (e.key === 'Tab') {
+				const $modal = $(this)
+				const focusableElements = $modal.find(
+					'button:visible, [href]:visible, input:visible, select:visible, textarea:visible, [tabindex]:not([tabindex="-1"]):visible'
+				)
+
+				if (focusableElements.length === 0) return
+
+				const firstFocusable = focusableElements[0]
+				const lastFocusable = focusableElements[focusableElements.length - 1]
+
+				if (e.shiftKey) {
+					// Shift+Tab: moving backwards
+					if (document.activeElement === firstFocusable) {
+						e.preventDefault()
+						lastFocusable.focus()
+					}
+				} else {
+					// Tab: moving forwards
+					if (document.activeElement === lastFocusable) {
+						e.preventDefault()
+						firstFocusable.focus()
+					}
+				}
 			}
 		}
 	})

@@ -25,14 +25,22 @@ if (!function_exists('render_elc_media_gallery')) {
     foreach ($image_ids as $image_id) {
       $attachment = get_post($image_id);
       if ($attachment && $attachment->post_type === 'attachment') {
+        // Get ACF fields
+        $speakers = get_field('speakers', $image_id);
+        $session_title = get_field('session_title', $image_id);
+        $date = get_field('date', $image_id);
+        $location = get_field('location', $image_id);
+
         $images[] = array(
           'id' => $image_id,
           'url' => wp_get_attachment_url($image_id),
           'alt' => get_post_meta($image_id, '_wp_attachment_image_alt', true),
-          'caption' => wp_get_attachment_caption($image_id),
-          'description' => $attachment->post_content,
           'thumbnail' => wp_get_attachment_image_url($image_id, 'thumbnail'),
           'large' => wp_get_attachment_image_url($image_id, 'large'),
+          'speakers' => $speakers ? $speakers : '',
+          'session_title' => $session_title ? $session_title : '',
+          'date' => $date ? $date : '',
+          'location' => $location ? $location : '',
         );
       }
     }
@@ -53,26 +61,23 @@ if (!function_exists('render_elc_media_gallery')) {
         <!-- Image Cards Grid -->
         <div class="row g-4">
           <?php foreach ($images as $index => $image) : ?>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+            <div class="col-6 col-md-4 col-lg-3 col-xl-2">
               <div class="card elc-gallery-card chamfer bg-white h-100"
                 role="button"
                 tabindex="0"
-                aria-label="<?php echo esc_attr('View image: ' . ($image['alt'] ?: 'Image ' . ($index + 1))); ?>"
+                aria-label="<?php echo esc_attr('View image: ' . ($image['session_title'] ?: ($image['alt'] ?: 'Image ' . ($index + 1)))); ?>"
                 data-bs-toggle="modal"
                 data-bs-target="#<?php echo esc_attr($modal_id); ?>"
-                data-image-index="<?php echo esc_attr($index); ?>"
-                data-large-url="<?php echo esc_url($image['large']); ?>"
-                data-alt="<?php echo esc_attr($image['alt']); ?>"
-                data-caption="<?php echo esc_attr($image['caption']); ?>"
-                data-description="<?php echo esc_attr(wp_strip_all_tags($image['description'])); ?>">
-                <img src="<?php echo esc_url($image['thumbnail']); ?>"
-                  class="card-img-top"
-                  alt="<?php echo esc_attr($image['alt']); ?>"
-                  style="height: 200px; object-fit: cover;">
+                data-image-index="<?php echo esc_attr($index); ?>">
+                <div class="ratio ratio-1x1 elc-card-img-wrapper">
+                  <img src="<?php echo esc_url($image['thumbnail']); ?>"
+                    class="card-img-top"
+                    alt="<?php echo esc_attr($image['alt']); ?>">
+                </div>
                 <div class="card-body">
-                  <?php if (!empty($image['caption'])) : ?>
-                    <p class="card-text text-muted small mb-0">
-                      <?php echo esc_html($image['caption']); ?>
+                  <?php if (!empty($image['session_title'])) : ?>
+                    <p class="card-text small mb-0">
+                      <?php echo esc_html($image['session_title']); ?>
                     </p>
                   <?php endif; ?>
                 </div>
@@ -92,11 +97,8 @@ if (!function_exists('render_elc_media_gallery')) {
           data-gallery-id="<?php echo esc_attr($gallery_id); ?>"
           data-images='<?php echo esc_attr(json_encode($images)); ?>'>
           <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content chamfer bg-white">
-              <div class="modal-body position-relative" style="max-height: 80vh; overflow-y: auto;">
-                <!-- Close button -->
-                <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10; background-color: rgba(255, 255, 255, 0.8); border-radius: 50%; padding: 0.5rem;"></button>
-
+            <div class="modal-content chamfer bg-white h-auto">
+              <div class="modal-body position-relative" style="max-height: 80vh; min-height: 400px; overflow-y: auto;">
                 <!-- Fullscreen button -->
                 <button type="button" class="btn btn-light position-absolute top-0 start-0 m-3 elc-fullscreen-btn" aria-label="Toggle fullscreen" style="z-index: 10; opacity: 0.9;">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -104,8 +106,26 @@ if (!function_exists('render_elc_media_gallery')) {
                   </svg>
                 </button>
 
+                <!-- Close button -->
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10; background-color: rgba(255, 255, 255, 0.8); border-radius: 50%; padding: 0.5rem;"></button>
+
+                <!-- Loading Spinner -->
+                <div class="elc-image-loader position-absolute top-50 start-50 translate-middle" style="z-index: 5; display: none;">
+                  <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+
                 <!-- Image -->
                 <img src="" alt="" class="img-fluid mb-3 elc-modal-image" style="width: 100%; max-height: 70vh; object-fit: contain;">
+
+                <!-- Image Meta Data -->
+                <div class="elc-modal-meta-data">
+                  <h5 class="elc-modal-session-title mb-2"></h5>
+                  <p class="elc-modal-speakers mb-1"></p>
+                  <p class="elc-modal-location mb-1"></p>
+                  <p class="elc-modal-date mb-0"></p>
+                </div>
 
                 <!-- Navigation buttons -->
                 <button type="button" class="btn btn-light position-absolute top-50 start-0 translate-middle-y ms-2 elc-nav-prev" aria-label="Previous image" style="z-index: 10; opacity: 0.9;">
@@ -118,9 +138,6 @@ if (!function_exists('render_elc_media_gallery')) {
                     <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
                   </svg>
                 </button>
-
-                <div class="elc-modal-caption mb-2"></div>
-                <div class="elc-modal-description text-muted"></div>
               </div>
             </div>
           </div>

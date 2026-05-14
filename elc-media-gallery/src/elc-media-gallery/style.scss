@@ -20,23 +20,27 @@
 			cursor: pointer;
 			transition: box-shadow 0.3s ease;
 			border: 1px solid #dee2e6;
-			overflow: hidden;
 
 			&:hover {
-				box-shadow: 0 4px 12px var(primary-color);
 
 				.card-img-top {
 					transform: scale(1.05);
 				}
 			}
 
-			&:focus-visible {
-				outline: 2px solid var(--bs-primary);
-				outline-offset: 2px;
+
+
+
+
+			.elc-card-img-wrapper {
+				overflow: hidden;
+				border-bottom: 1px solid #dee2e6;
 			}
 
 			.card-img-top {
-				border-bottom: 1px solid #dee2e6;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
 				transition: transform 0.5s ease;
 			}
 
@@ -47,27 +51,57 @@
 		}
 
 		// Modal Styles
+		.modal-content {
+			transition: height 0.3s ease;
+		}
+
 		.modal-body {
+			transition: height 0.3s ease;
+
 			.elc-modal-image {
 				border-radius: 4px;
 				transition: opacity 0.3s ease, width 0.3s ease, height 0.3s ease;
 			}
 
-			.elc-modal-caption {
-				font-size: 1.1rem;
-				margin-bottom: 0.5rem;
+			.elc-modal-meta-data {
+				padding: 1rem 0;
+			}
+
+			.elc-modal-session-title {
+				font-size: 1.25rem;
+				font-weight: 600;
+				margin-bottom: 1rem;
 				transition: opacity 0.2s ease;
 			}
 
-			.elc-modal-description {
+			.elc-modal-speakers,
+			.elc-modal-location,
+			.elc-modal-date {
 				font-size: 0.95rem;
 				line-height: 1.6;
 				transition: opacity 0.2s ease;
 			}
 
 			// Navigation buttons
+			.elc-nav-prev {
+				left: 20px !important;
+			}
+
+			.elc-nav-next {
+				right: 20px !important;
+			}
+
 			.elc-nav-prev,
 			.elc-nav-next {
+				display: flex;
+				align-content: center;
+				justify-content: center;
+				flex-wrap: wrap;
+				padding: 0;
+				margin: 0;
+				height: 40px;
+				width: 40px;
+				border-radius: 50rem;
 				transition: opacity 0.2s ease, transform 0.2s ease;
 
 				&:hover:not(:disabled) {
@@ -75,8 +109,24 @@
 				}
 			}
 
+			.btn-close {
+				top: 10px !important;
+				right: 10px !important;
+			}
+
 			.elc-fullscreen-btn {
+				display: flex;
+				align-content: center;
+				justify-content: center;
+				flex-wrap: wrap;
+				padding: 0;
+				margin: 0;
+				height: 30px;
+				width: 30px;
+				border-radius: 50rem;
 				transition: opacity 0.2s ease, transform 0.2s ease;
+				top: 10px !important;
+				left: 10px !important;
 
 				&:hover {
 					transform: scale(1.05);
