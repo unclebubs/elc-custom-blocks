@@ -6,7 +6,7 @@
 	"title": "News Carousel",
 	"category": "widgets",
 	"icon": "slides",
-	"description": "Display news articles from a category in a Slick Slider carousel.",
+	"description": "Display news articles from a category in a grid layout with pagination.",
 	"example": {},
 	"attributes": {
 		"categoryId": {

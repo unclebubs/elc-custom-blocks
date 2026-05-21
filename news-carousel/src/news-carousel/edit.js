@@ -86,7 +86,7 @@ export default function Edit ({ attributes, setAttributes, name }) {
 						options={categoryOptions}
 						onChange={value => setAttributes({ categoryId: parseInt(value) })}
 						help={__(
-							'Choose which category of news articles to display in the carousel.',
+							'Choose which category of news articles to display in the grid.',
 							'news-carousel'
 						)}
 					/>

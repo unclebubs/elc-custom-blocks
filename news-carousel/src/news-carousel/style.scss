@@ -9,68 +9,14 @@
 	margin: 2rem 0;
 	padding: 1rem;
 
-	.news-carousel-wrapper {
+	.news-grid-wrapper {
 		position: relative;
-		padding: 0 40px;
-	}
 
-	.news-carousel {
-		width: 100%;
-
-		.slick-prev.slick-arrow {
-			left: -60px !important;
+		.row {
+			// Bootstrap grid handles layout
 		}
 
-		.slick-dots {
-			bottom: -40px !important;
-		}
-
-		// Slick track - use flexbox for equal height slides
-		.slick-track {
-			display: flex !important;
-			align-items: stretch !important;
-		}
-
-		// Slick container
-		.slick-list {
-			margin: 0;
-			overflow: hidden;
-		}
-
-		// Slick slides - inherit height from track
-		.slick-slide {
-			height: auto !important;
-			display: flex !important;
-			align-self: stretch;
-
-			>div {
-				display: flex !important;
-				height: 100%;
-				width: 100%;
-			}
-		}
-
-		// Carousel item wrapper - add me-4 spacing (1.5rem)
-		.news-carousel-item {
-			display: flex !important;
-			height: 100%;
-			width: 100%;
-			padding-right: 1.5rem; // Bootstrap me-4 equivalent
-			box-sizing: border-box;
-		}
-
-
-
-
-
-		// Mobile (1 slide shown)
-		@media (max-width: 767px) {
-			.news-carousel-item {
-				padding-right: 0 !important;
-			}
-		}
-
-		// Card - ensure it fills the container
+		// Card - ensure consistent height within columns
 		.card {
 			display: flex !important;
 			flex-direction: column !important;
@@ -91,10 +37,15 @@
 				}
 			}
 		}
+	}
 
+	// Pagination styling
+	.pagination {
+		margin-top: 2rem;
 
-
-
+		.page-link {
+			// Bootstrap default pagination styling
+		}
 	}
 
 	// Alert messages
