@@ -35,6 +35,7 @@ function initMediaGallery () {
 		const $prevBtn = $modal.find('.elc-nav-prev')
 		const $nextBtn = $modal.find('.elc-nav-next')
 		const $fullscreenBtn = $modal.find('.elc-fullscreen-btn')
+		const $downloadBtn = $modal.find('.elc-download-btn')
 
 		// Lock the current height to prevent jumping
 		const currentHeight = $modalBody.outerHeight()
@@ -51,6 +52,7 @@ function initMediaGallery () {
 		$prevBtn.fadeOut(200)
 		$nextBtn.fadeOut(200)
 		$fullscreenBtn.fadeOut(200)
+		$downloadBtn.fadeOut(200)
 		$loader.fadeIn(200)
 
 		// Wait a moment for fade out, then start preloading
@@ -111,6 +113,7 @@ function initMediaGallery () {
 					$prevBtn.fadeIn(200)
 					$nextBtn.fadeIn(200)
 					$fullscreenBtn.fadeIn(200)
+					$downloadBtn.fadeIn(200)
 					setTimeout(function () {
 						$image.css('opacity', '1')
 						$sessionTitle.css('opacity', '1')
@@ -136,6 +139,7 @@ function initMediaGallery () {
 				$prevBtn.fadeIn(200)
 				$nextBtn.fadeIn(200)
 				$fullscreenBtn.fadeIn(200)
+				$downloadBtn.fadeIn(200)
 				$modalBody.css('height', 'auto')
 				console.error('Failed to load image:', image.large)
 			}
@@ -209,6 +213,14 @@ function initMediaGallery () {
 
 		const modalElement = document.querySelector(modalId)
 		if (modalElement && window.bootstrap) {
+			// Initialize tooltips for buttons in the modal
+			const tooltipTriggerList = [].slice.call(
+				modalElement.querySelectorAll('[data-bs-toggle="tooltip"]')
+			)
+			tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+				new bootstrap.Tooltip(tooltipTriggerEl)
+			})
+
 			// Get or create Bootstrap modal instance
 			let modal = bootstrap.Modal.getInstance(modalElement)
 			if (!modal) {
@@ -277,6 +289,24 @@ function initMediaGallery () {
 		}
 	})
 
+	// Handle download button click
+	$('.elc-download-btn').on('click', function (e) {
+		e.stopPropagation()
+		const $modal = $(this).closest('.modal')
+		const imageElement = $modal.find('.elc-modal-image')[0]
+		const imageSrc = imageElement.src
+		const imageAlt = imageElement.alt || 'image'
+
+		// Create a temporary anchor element to trigger download
+		const link = document.createElement('a')
+		link.href = imageSrc
+		link.download = imageAlt.replace(/[^a-z0-9]/gi, '-').toLowerCase() + '.jpg'
+		link.target = '_blank'
+		document.body.appendChild(link)
+		link.click()
+		document.body.removeChild(link)
+	})
+
 	// Handle keyboard arrows in modal and trap focus
 	$('.modal').on('keydown', function (e) {
 		if ($(this).hasClass('show')) {
@@ -333,10 +363,5 @@ function initMediaGallery () {
 
 // Initialize when DOM is ready
 $(document).ready(function () {
-	initMediaGallery()
-})
-
-// Re-initialize on AJAX loads (for dynamic content)
-$(document).on('DOMContentLoaded', function () {
 	initMediaGallery()
 })

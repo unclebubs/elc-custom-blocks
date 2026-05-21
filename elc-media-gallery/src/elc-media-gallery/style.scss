@@ -102,10 +102,12 @@
 				height: 40px;
 				width: 40px;
 				border-radius: 50rem;
+				top: 50% !important;
+				transform: translateY(-50%);
 				transition: opacity 0.2s ease, transform 0.2s ease;
 
 				&:hover:not(:disabled) {
-					transform: scale(1.1);
+					transform: translateY(-50%) scale(1.1);
 				}
 			}
 
@@ -114,7 +116,8 @@
 				right: 10px !important;
 			}
 
-			.elc-fullscreen-btn {
+			.elc-fullscreen-btn,
+			.elc-download-btn {
 				display: flex;
 				align-content: center;
 				justify-content: center;
@@ -125,12 +128,19 @@
 				width: 30px;
 				border-radius: 50rem;
 				transition: opacity 0.2s ease, transform 0.2s ease;
-				top: 10px !important;
 				left: 10px !important;
 
 				&:hover {
 					transform: scale(1.05);
 				}
+			}
+
+			.elc-fullscreen-btn {
+				top: 10px !important;
+			}
+
+			.elc-download-btn {
+				top: 50px !important;
 			}
 		}
 	}
