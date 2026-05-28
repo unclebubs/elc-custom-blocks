@@ -74,13 +74,6 @@ if (!function_exists('render_elc_media_gallery')) {
                     class="card-img-top"
                     alt="<?php echo esc_attr($image['alt']); ?>">
                 </div>
-                <div class="card-body">
-                  <?php if (!empty($image['session_title'])) : ?>
-                    <p class="card-text small mb-0">
-                      <?php echo esc_html($image['session_title']); ?>
-                    </p>
-                  <?php endif; ?>
-                </div>
               </div>
             </div>
           <?php endforeach; ?>

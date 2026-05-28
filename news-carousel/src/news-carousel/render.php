@@ -23,7 +23,7 @@ if (!function_exists('render_news_carousel')) {
     // Query args for fetching posts
     $query_args = array(
       'post_type'      => 'post',
-      'post_status'    => 'private',
+      'post_status'    => 'publish',
       'posts_per_page' => -1,
       'cat'            => $category_id,
       'orderby'        => 'date',
