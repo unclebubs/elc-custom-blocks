@@ -37,7 +37,6 @@ ob_start();
 	<audio controls preload="metadata" class="w-100">
 		<source src="<?php echo $mp3_url; ?>" type="audio/mpeg">
 	</audio>
-	s
 </div>
 <?php
 echo ob_get_clean();

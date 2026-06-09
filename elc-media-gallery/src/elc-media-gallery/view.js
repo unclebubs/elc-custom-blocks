@@ -15,6 +15,13 @@ function initMediaGallery () {
 	let lastFocusedCard = null
 	let currentImageIndex = 0
 	let images = []
+	const isIos =
+		/iPad|iPhone|iPod/.test(navigator.userAgent) ||
+		(navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+
+	if (isIos) {
+		$('body').addClass('elc-is-ios')
+	}
 
 	/**
 	 * Populate modal with image data by index
@@ -36,6 +43,7 @@ function initMediaGallery () {
 		const $nextBtn = $modal.find('.elc-nav-next')
 		const $fullscreenBtn = $modal.find('.elc-fullscreen-btn')
 		const $downloadBtn = $modal.find('.elc-download-btn')
+		const $downloadText = $modal.find('.elc-download-text')
 
 		// Lock the current height to prevent jumping
 		const currentHeight = $modalBody.outerHeight()
@@ -51,7 +59,11 @@ function initMediaGallery () {
 		// Hide navigation buttons and show loader
 		$prevBtn.fadeOut(200)
 		$nextBtn.fadeOut(200)
-		$fullscreenBtn.fadeOut(200)
+		if (isIos) {
+			$fullscreenBtn.hide()
+		} else {
+			$fullscreenBtn.fadeOut(200)
+		}
 		$downloadBtn.fadeOut(200)
 		$loader.fadeIn(200)
 
@@ -112,7 +124,9 @@ function initMediaGallery () {
 					$loader.fadeOut(200)
 					$prevBtn.fadeIn(200)
 					$nextBtn.fadeIn(200)
-					$fullscreenBtn.fadeIn(200)
+					if (!isIos) {
+						$fullscreenBtn.fadeIn(200)
+					}
 					$downloadBtn.fadeIn(200)
 					setTimeout(function () {
 						$image.css('opacity', '1')
@@ -138,7 +152,9 @@ function initMediaGallery () {
 				$loader.fadeOut(200)
 				$prevBtn.fadeIn(200)
 				$nextBtn.fadeIn(200)
-				$fullscreenBtn.fadeIn(200)
+				if (!isIos) {
+					$fullscreenBtn.fadeIn(200)
+				}
 				$downloadBtn.fadeIn(200)
 				$modalBody.css('height', 'auto')
 				console.error('Failed to load image:', image.large)
@@ -203,13 +219,6 @@ function initMediaGallery () {
 
 		// Set initial square aspect ratio for modal-body
 		const $modalBody = $modal.find('.modal-body')
-		const modalWidth = $modal.find('.modal-dialog').width()
-		if (modalWidth) {
-			$modalBody.css('height', modalWidth + 'px')
-		}
-
-		// Populate modal with the selected image
-		populateModalByIndex($modal, imageIndex)
 
 		const modalElement = document.querySelector(modalId)
 		if (modalElement && window.bootstrap) {
@@ -228,6 +237,14 @@ function initMediaGallery () {
 			}
 			modal.show()
 		}
+
+		const modalWidth = $modal.find('.modal-dialog').width() || $modal.width()
+		if (modalWidth) {
+			$modalBody.css('height', modalWidth + 'px')
+		}
+
+		// Populate modal with the selected image
+		populateModalByIndex($modal, imageIndex)
 	}
 
 	// Handle card clicks to populate modal
@@ -262,8 +279,17 @@ function initMediaGallery () {
 		}
 	})
 
+	// Hide fullscreen button on iOS because the fullscreen API is not supported reliably there
+	if (isIos) {
+		$('.elc-fullscreen-btn').hide()
+	}
+
 	// Handle fullscreen button click
 	$('.elc-fullscreen-btn').on('click', function (e) {
+		if (isIos) {
+			return
+		}
+
 		e.stopPropagation()
 		const $modal = $(this).closest('.modal')
 		const imageElement = $modal.find('.elc-modal-image')[0]
@@ -290,7 +316,7 @@ function initMediaGallery () {
 	})
 
 	// Handle download button click
-	$('.elc-download-btn').on('click', function (e) {
+	$('.elc-download-btn, .elc-download-text').on('click', function (e) {
 		e.stopPropagation()
 		const $modal = $(this).closest('.modal')
 		const imageElement = $modal.find('.elc-modal-image')[0]

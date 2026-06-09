@@ -63,9 +63,12 @@
 				transition: opacity 0.3s ease, width 0.3s ease, height 0.3s ease;
 			}
 
-			.elc-modal-meta-data {
-				padding: 1rem 0;
+			.elc-modal-image-wrapper {
+				position: relative;
+				width: 100%;
 			}
+
+
 
 			.elc-modal-session-title {
 				font-size: 1.25rem;
@@ -116,6 +119,8 @@
 				right: 10px !important;
 			}
 
+
+
 			.elc-fullscreen-btn,
 			.elc-download-btn {
 				display: flex;
@@ -142,17 +147,35 @@
 			.elc-download-btn {
 				top: 50px !important;
 			}
-		}
-	}
 
-	// Responsive adjustments
-	@media (max-width: 768px) {
-		.elc-media-gallery-wrapper {
-			.elc-gallery-card {
-				.card-body {
-					min-height: auto;
+
+			/* Action buttons wrapper (fullscreen + download) */
+			.elc-action-btns {
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+				align-items: flex-start;
+			}
+
+
+			// Responsive adjustments
+			@media (max-width: 768px) {
+				.elc-media-gallery-wrapper {
+					.elc-gallery-card {
+						.card-body {
+							min-height: auto;
+						}
+					}
 				}
 			}
+		}
+
+		body.elc-is-ios .elc-fullscreen-btn {
+			display: none !important;
+		}
+
+		body.elc-is-ios .elc-download-btn {
+			top: 10px !important;
 		}
 	}
 }
